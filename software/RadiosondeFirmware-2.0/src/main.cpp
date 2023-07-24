@@ -177,7 +177,6 @@ void main_generate_aprs_position_packet()
   DEBUG_PRINTLN(aprs_packet_comment_buf);
   DEBUG_PRINTLN();
 
-  global_freq = 144500000; // TODO:
   // Send APRS packet
   aprs_send_position_packet(&global_freq, SX1278_TX_POWER, SX1278_DEVIATION, APRS_SOURCE_CALLSIGN, APRS_SOURCE_SSID, DMH_latitude_buf, DMH_longitude_buf, aprs_packet_comment_buf);
 
@@ -196,7 +195,6 @@ void main_generate_aprs_position_packet()
       DEBUG_PRINTLN((char*) packet_img_base64_buf);
       DEBUG_PRINTLN();
 
-      global_freq = 144100000;
       aprs_send_status_packet(&global_freq, SX1278_TX_POWER, SX1278_DEVIATION, APRS_SOURCE_CALLSIGN, 10, image_packet_counter, (char*) packet_img_base64_buf); // Send aprs image packet
       image_packet_counter++; // Increment image packet counter
     }
