@@ -40,8 +40,8 @@ static void ax25_set_rectangle_wave_out(bool rectangle_wave_out_state)
   }
   else
   {
-    SX1278_mod_direct_out(APRS_2400_MARK_DELAY); // Send first 2400Hz mark for ~417us, so theoretical a delay between state changes of ~208s
-    SX1278_mod_direct_out(APRS_2400_MARK_DELAY); // Send second 2400Hz mark for ~417us, so theoretical a delay between state changes of ~208us
+    SX1278_mod_direct_out(APRS_2400_SPACE_DELAY); // Send first 2400Hz space for ~417us, so theoretical a delay between state changes of ~208s
+    SX1278_mod_direct_out(APRS_2400_SPACE_DELAY); // Send second 2400Hz space for ~417us, so theoretical a delay between state changes of ~208us
   }
 }
 

@@ -40,7 +40,7 @@
   #define MCU_SET_FREQ_CAMERA
 #elif TARGET == TARGET_RS_4
   #define MCU_SET_FREQ_NORMAL setCpuFrequencyMhz(10) // Least power consumption
-  #define MCU_SET_FREQ_RADIO setCpuFrequencyMhz(240)  // Higher clock for more accurate AFSK timing
+  #define MCU_SET_FREQ_RADIO setCpuFrequencyMhz(80)  // Higher clock for more accurate AFSK timing
   #define MCU_SET_FREQ_CAMERA setCpuFrequencyMhz(80)  // Higher clock for complex image routine
 #endif
 

@@ -53,7 +53,9 @@ int course = 0;
 // Exported functions
 void gps_begin()
 {
+  MCU_SET_FREQ_RADIO;
   gps_serial_interface.begin(GPS_BAUD_RATE); // Set GPS BAUD rate
+  MCU_SET_FREQ_NORMAL;
 }
 
 void gps_end()
@@ -75,15 +77,22 @@ void gps_proccess_for_ms(uint32_t duration_ms)
     // Reset watchdog
     WDT_RESET;
     
+    #if TARGET == TARGET_RS_4
+      // Slightly adjust baud rate to compensate for lower MCU clocks
+      gps_serial_interface.updateBaudRate(GPS_BAUD_RATE-200);
+    #endif
+    
     while(gps_serial_interface.available())
     {
-      if (gps_serial_interface.find('$')) // NMEA sentence starts with '%'
+      if (gps_serial_interface.find('$')) // NMEA sentence starts with '$'
       {
         gps_serial_interface.readBytesUntil('\n', gps_input_buffer, 128); // Read in single NMEA sentence
         // Parse GNGGA or GPGGA sentence from GPS receiver
         sscanf(gps_input_buffer, GPS_PARSE_SENTENCE_GGA",%10[^,],%2d%2d.%2d%*[^,],%c,%3d%2d.%2d%*[^,],%c,%d,%d,%*[^,],%ld", raw_time, &dd_lat, &mm_lat, &last_mm_lat, &direction_lat, &dd_long, &mm_long, &last_mm_long, &direction_long, &quality_indicator, &satellites, &altitude);
         // Parse GNRMC or GPRMC from GPS receiver
         sscanf(gps_input_buffer, GPS_PARSE_SENTENCE_RMC",%*[^,],%*c,%*[^,],%*c,%*[^,],%*c,%d.%*d,%d", &speed, &course);
+
+        //DEBUG_PRINTLN(gps_input_buffer);
       }
     }
   }

@@ -1,99 +1,109 @@
-# "ISEF" / "Jugend forscht": radiosonde project
+# *ISEF* / *Jugend forscht*: radiosonde project
 
-**This project won first award and the Craig R. Barrett Award for Innovation at "Regeneron ISEF”, the world's largest student sience competition. In addition, the project won the national prize at "Jugend forscht”, Germany's largest youth science competition. [Around the World in Eighty Days: Small Radiosondes on a Great Mission](https://abstracts.societyforscience.org/Home/FullAbstract?ProjectId=21789)**
+The objective of this project is to develop ultralight radiosondes for long-term measurements in the stratosphere.
 
-**See https://dl9as.github.io/ for more balloon flight information**
 
-**Developer contact: DL9AS@qsl.net**
+This project won [First Award](Documentation/https://abstracts.societyforscience.org/Home/FullAbstract?&ProjectId=21789) and the [Craig R. Barrett](Documentation/https://abstracts.societyforscience.org/Home/FullAbstract?&ProjectId=21789) Award for Innovation at *ISEF*, the world's largest student sience competition. In addition, the project won [national first prize](Documentation/https://www.jugend-forscht.de/projektdatenbank/in-80-tagen-um-die-welt-kleine-sonden-auf-grosser-mission.html) at *Jugend forscht*, Germany's largest youth science competition.
 
----
 
-![radiosonde-3-lite_with_solar_array.png](balloon_flight-map-11.png)
+**Developer contact: [DL9AS@qsl.net](mailto:DL9AS@qsl.net)**
 
-### 4th radiosonde version:
+- [*ISEF* / *Jugend forscht*: radiosonde project](#isef--jugend-forscht-radiosonde-project)
+  - [Flight path](#flight-path)
+  - [4th radiosonde version](#4th-radiosonde-version)
+    - [Hardware](#hardware)
+    - [Aerial images](#aerial-images)
+  - [3rd radiosonde version:](#3rd-radiosonde-version)
+    - [Hardware](#hardware-1)
+    - [Assembled radiosonde](#assembled-radiosonde)
+  - [2nd radiosonde version with camera:](#2nd-radiosonde-version-with-camera)
+  - [2nd radiosonde version](#2nd-radiosonde-version)
+    - [Assembled radiosonde](#assembled-radiosonde-1)
+  - [1st radiosonde version](#1st-radiosonde-version)
+    - [Assembled radiosonde](#assembled-radiosonde-2)
+  - [Balloon](#balloon)
+  - [APRS packet description](#aprs-packet-description)
 
-| front view                                              | back view                                             |
+
+## Flight path
+
+![radiosonde-3-lite_with_solar_array.png](Documentation/balloon_flight-map-11.png)
+
+On the previous stratospheric flights, the sondes were able to stay in the air for 25 days and circumnavigate the world several times.
+
+## 4th radiosonde version
+The 4th generation radiosonde adds support for aerial imaging.
+
+### Hardware
+
+| ![radiosonde-2-lite_front](Documentation/radiosonde-4-lite_front.png) | ![radiosonde-2-lite_back](Documentation/radiosonde-4-lite_back.png) |
 | ------------------------------------------------------- | ----------------------------------------------------- |
-| ![radiosonde-2-lite_front](radiosonde-4-lite_front.png) | ![radiosonde-2-lite_back](radiosonde-4-lite_back.png) |
 
-<img src="radiosonde-4-lite_front_2.png" alt="radiosonde-4-lite_front_2" width=100% />
+| ![radiosonde-4-lite_front_2](Documentation/radiosonde-4-lite_front_2.png) |
+| ----------------------------------------------------------- |
 
-**Figure** - radiosonde-4
 
-### 
+### Aerial images
 
-| ![1-aerial_image_radiosonde_4](1-aerial_image_radiosonde_4.png) | ![2-aerial_image_radiosonde_4.png](2-aerial_image_radiosonde_4.png) |
-| --------------------------------------------------------------- | ------------------------------------------------------------------- |
-| ![3-aerial_image_radiosonde_4](3-aerial_image_radiosonde_4.png) | ![4-aerial_image_radiosonde_4.png](4-aerial_image_radiosonde_4.png) |
+| ![2-aerial_image_radiosonde_4](Documentation/2-aerial_image_radiosonde_4.png)Berlin, Germany | ![2-aerial_image_radiosonde_4.png](Documentation/3-aerial_image_radiosonde_4.png) Berlin, Germany|
+| :---------------------------------------------------------------: | :-------------------------------------------------------------------: |
+| ![3-aerial_image_radiosonde_4](Documentation/6-aerial_image_radiosonde_4.png) **Lubiczyn, Poland**  | ![4-aerial_image_radiosonde_4.png](Documentation/7-aerial_image_radiosonde_4.png) **Nitra, Slovakia** |
 
-**Figure** - radiosonde-4 images
+## 3rd radiosonde version:
 
-### 3rd radiosonde version:
+The 3rd generation radiosonde is ultra light and weighs only **4.8g with solar cells**.
 
-| front view                                              | back view                                             |
-| ------------------------------------------------------- | ----------------------------------------------------- |
-| ![radiosonde-2-lite_front](radiosonde-3-lite_front.png) | ![radiosonde-2-lite_back](radiosonde-3-lite_back.png) |
+### Hardware
 
-<img src="radiosonde-3-lite_front_2.png" alt="radiosonde-3-lite_front_2" width=50% />
+| ![radiosonde-2-lite_front](Documentation/radiosonde-3-lite_front.png)  | ![radiosonde-2-lite_back](Documentation/radiosonde-3-lite_back.png) |
+| ---- | ---- |
 
-**Figure** - radiosonde-3
+![radiosonde-2-lite_front_3](Documentation/radiosonde-3-lite_front_3.png) 
 
-![radiosonde-3-lite_with_solar_array.png](radiosonde-3-lite_with_solar_array.png)
+### Assembled radiosonde
 
-**Figure** - radiosonde-3 with mounted solar panels - weighs only 4.8 g
+![radiosonde-3-lite_with_solar_array.png](Documentation/radiosonde-3-lite_with_solar_array.png)
 
-### 2nd radiosonde version with camera:
 
-| aerial image                                                                                  | radiosonde with camera                                                                               |
-|:---------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
-| <img src="aerial_image_radiosonde_2.png" title="" alt="aerial_image_radiosonde_2" width=100%> | <img src="radiosonde-2-lite_with_camera.png" title="" alt="radiosonde-2-lite_with_camera" width=30%> |
 
-### 2nd radiosonde version:
+## 2nd radiosonde version with camera:
 
-| front view                                                                    | back view                                                                   |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| ![radiosonde-2-lite_front](hardware/radiosonde-2/radiosonde-2-lite_front.png) | ![radiosonde-2-lite_back](hardware/radiosonde-2/radiosonde-2-lite_back.png) |
+| Aerial image | Radiosonde  |
+| :----: | :----: |
+| <img src="Documentation/aerial_image_radiosonde_2.png" title="" alt="Documentation/aerial_image_radiosonde_2" width=100%> | <img src="Documentation/radiosonde-2-lite_with_camera.png" title="" alt="Documentation/radiosonde-2-lite_with_camera" width=60%> |
 
- **Figure** - radiosonde-2-lite pcb
+## 2nd radiosonde version
 
-![radiosonde-2-lite_without_solar_array](radiosonde-2-lite_without_solar_array.JPG)
+### Assembled radiosonde
 
- **Figure** - radiosonde-2-lite without mounted solar panels
+![radiosonde-2-lite_without_solar_array](Documentation/radiosonde-2-lite_without_solar_array.JPG)
 
-![radiosonde-2-lite_breakouts](radiosonde-2-lite_breakouts.JPG)
 
-**Figure** - radiosonde-2-lite pcb breakout
+PCB breakout taps:
 
-![radiosonde-2-lite_solar_array](radiosonde-2-lite_solar_array.JPG)
+![radiosonde-2-lite_breakouts](Documentation/radiosonde-2-lite_breakouts.JPG)
 
-**Figure** - radiosonde-2-lite solar panels
+Solar cell array:
 
-![radiosonde-2-lite_with_solar_array](radiosonde-2-lite_with_solar_array.JPG)
+![radiosonde-2-lite_solar_array](Documentation/radiosonde-2-lite_solar_array.JPG)
 
-**Figure** - radiosonde-2-lite with mounted solar panels - radiosonde-2-lite weighs only 7.8 g
 
-![radiosonde-2-lite_with_solar_array_2](radiosonde-2-lite_with_solar_array_2.JPG)
+![radiosonde-2-lite_with_solar_array](Documentation/radiosonde-2-lite_with_solar_array.JPG)
 
-**Figure** - radiosonde-2-lite with mounted solar panels from above
 
-### 1st radiosonde version:
+![radiosonde-2-lite_with_solar_array_2](Documentation/radiosonde-2-lite_with_solar_array_2.JPG)
 
-| front view                                                          | back view                                                         |
-| ------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| ![radiosonde-1_front](hardware/radiosonde-1/radiosonde-1_front.png) | ![radiosonde-1_back](hardware/radiosonde-1/radiosonde-1_back.png) |
+## 1st radiosonde version
 
- **Figure** - radiosonde-1 pcb
+### Assembled radiosonde
 
-![radiosonde-1_with_solar_array](radiosonde-1_with_solar_array.JPG)
+![radiosonde-1_with_solar_array](Documentation/radiosonde-1_with_solar_array.JPG)
 
-**Figure** - radiosonde-1 with mounted solar panels
+## Balloon
 
-![radiosonde-1_in_the_air](radiosonde-1_in_the_air.png)
+![radiosonde-1_in_the_air](Documentation/radiosonde-1_in_the_air.jpg)
 
-**Figure** - radiosonde-1 in the air
+## APRS packet description
 
-### APRS packet description:
-
-![aprs paket description](aprs_paket_description.png#gh-light-mode-only)
-![aprs paket description](aprs_paket_description_dark.png#gh-dark-mode-only)
- **Figure** - APRS packet description
+![aprs paket description](Documentation/aprs_paket_description.png#gh-light-mode-only)
+![aprs paket description](Documentation/aprs_paket_description_dark.png#gh-dark-mode-only)

@@ -96,6 +96,17 @@ void SX1278_disable(void)
   digitalWrite(SX1278_NRESET, LOW); // Disable SX1278
 }
 
+void SX1278_sleep(void)
+{
+  // Set SX1278 operating mode to sleep mode
+  // 7: 0->FSK/OOK Mode
+  // 6-5: 00->FSK
+  // 4: 0 (reserved)
+  // 3: 1->Low Frequency Mode
+  // 2-0: 000->Sleep Mode
+  SX1278_write_reg(REG_OP_MODE, 0x08);
+}
+
 void SX1278_reset(void)
 {
   digitalWrite(SX1278_NRESET, LOW); // Disable SX1278
@@ -134,7 +145,7 @@ void SX1278_enable_TX_direct(uint64_t *freq, uint8_t pwr, uint16_t deviation)
   if(pwr <= 15) SX1278_set_TX_power(pwr, false); // For PWR between 2-15: Do not use the +20dBm option on PA_BOOT
   else SX1278_set_TX_power(pwr, true); // For PWR between 5-20: Enable the +20dBm option on PA_BOOT
   
-  SX1278_set_TX_deviation(freq, SX1278_DEVIATION);
+  SX1278_set_TX_deviation(freq, deviation);
 }
 
 void SX1278_mod_direct_out(uint32_t delay)
@@ -207,12 +218,14 @@ void SX1278_set_TX_power(uint8_t pwr, bool pa_boost_mode_20dbm)
 
 void SX1278_set_TX_frequency(uint64_t *freq)
 {
+  uint64_t freq_tmp = *freq;
+
   // Frequency value is calculate by:
   // Freg = (Frf * 2^19) / Fxo
   // Resolution is 61.035 Hz if Fxo = 32 MHz
-  *freq = (((*freq + SX1278_FREQUENCY_CORRECTION) << 19) / SX1278_CRYSTAL_FREQ);
+  freq_tmp = (((freq_tmp + SX1278_FREQUENCY_CORRECTION) << 19) / SX1278_CRYSTAL_FREQ);
 
-  SX1278_write_reg(REG_FR_MSB, *freq >> 16);  // Write MSB of RF carrier freq
-  SX1278_write_reg(REG_FR_MID, *freq >> 8);  // Write MID of RF carrier freq
-  SX1278_write_reg(REG_FR_LSB, *freq);  // Write LSB of RF carrier freq
+  SX1278_write_reg(REG_FR_MSB, freq_tmp >> 16);  // Write MSB of RF carrier freq
+  SX1278_write_reg(REG_FR_MID, freq_tmp >> 8);  // Write MID of RF carrier freq
+  SX1278_write_reg(REG_FR_LSB, freq_tmp);  // Write LSB of RF carrier freq
 }

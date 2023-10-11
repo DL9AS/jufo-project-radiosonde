@@ -38,7 +38,7 @@ uint64_t global_freq; // Global APRS frequency
 
 uint16_t aprs_packet_counter = 0;
 #if TARGET == TARGET_RS_4
-  uint16_t image_packet_counter = 0;
+  int16_t image_packet_counter = -1;
 #endif
 
 // Module functions
@@ -46,6 +46,7 @@ void main_generate_aprs_position_packet();
 #if TARGET == TARGET_RS_4
   void pre_img_loop();
   void main_generate_aprs_image_packet();
+  void main_capture_image();
 #endif
 
 void setup()
@@ -75,16 +76,7 @@ void setup()
   #if TARGET == TARGET_RS_4
     DEBUG_PRINTLN("[CAM] Begin");
     camera_begin();
-
     pre_img_loop(); // Run this loop before initializing camera
-
-    DEBUG_PRINTLN("[CAM] Init");
-    camera_init(); // Initialize camera
-    delay(2000); // Needed for OV2640 to properly adjust brightness
-    camera_capture_image(); // Capture new image
-
-    DEBUG_PRINTLN("[CAM] Disable");
-    camera_disable(); // Disable camera to save power
   #endif
 }
 
@@ -104,7 +96,7 @@ void loop()
 #if TARGET == TARGET_RS_4
   void pre_img_loop() // Loop for actions before camera initialized
   {
-    for(int i = 0; i < PRE_IMG_LOOP_REAPEATS; i++)
+    for(uint8_t i = 0; i < PRE_IMG_LOOP_REAPEATS; i++)
     {
       gps_proccess_for_ms(RADIO_PACKET_DELAY * 2); // Sleep with GPS running
 
@@ -189,19 +181,44 @@ void main_generate_aprs_position_packet()
 #if TARGET == TARGET_RS_4
   void main_generate_aprs_image_packet()
   {
-    if(camera_get_new_packet()) // Check if new image packet available to send
+    if(image_packet_counter == -1) // Go here after startup
+    {
+      DEBUG_PRINTLN("[CAM] Capture new image");
+      main_capture_image(); // ESP needs to be restarted for next image
+      image_packet_counter = 0;
+    }
+    else if(camera_get_new_packet()) // Check if new image packet available to send
     {
       DEBUG_PRINT("[IMG] Send: ");
+      DEBUG_PRINT((uint32_t)global_freq);
       DEBUG_PRINTLN((char*) packet_img_base64_buf);
       DEBUG_PRINTLN();
 
-      aprs_send_status_packet(&global_freq, SX1278_TX_POWER, SX1278_DEVIATION, APRS_SOURCE_CALLSIGN, 10, image_packet_counter, (char*) packet_img_base64_buf); // Send aprs image packet
+      // Send APRS packet
+      aprs_send_status_packet(&global_freq, SX1278_TX_POWER, SX1278_DEVIATION, APRS_SOURCE_CALLSIGN, IMAGE_APRS_SOURCE_SSID, image_packet_counter, (char*) packet_img_base64_buf); // Send aprs image packet
       image_packet_counter++; // Increment image packet counter
     }
-    else
+    else // Capture new image after the last one was send
     {
-      DEBUG_PRINTLN("[CAM] Last IMG packet send");
-      camera_panic(); // ESP needs to be restarted for next image 
+      DEBUG_PRINTLN("[IMG] Last IMG packet send");
+      DEBUG_PRINTLN("[CAM] Capture new image");
+      main_capture_image(); // ESP needs to be restarted for next image
+      image_packet_counter = 0;
     }
+  }
+
+  void main_capture_image()
+  {
+    DEBUG_PRINTLN("[CAM] Init");
+    camera_init(); // Initialize camera
+    MCU_SET_FREQ_NORMAL; // Clock down MCU to save power
+
+    gps_proccess_for_ms(2000); // Needed for OV2640 to properly adjust brightness
+
+    camera_capture_image(); // Capture new image
+
+    DEBUG_PRINTLN("[CAM] Disable");
+    camera_deinit(); // Deinit camera
+    camera_disable(); // Disable camera to save power
   }
 #endif

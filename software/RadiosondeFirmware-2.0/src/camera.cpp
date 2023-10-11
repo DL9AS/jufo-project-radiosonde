@@ -58,13 +58,14 @@ void camera_init()
   preferences.begin("DL9AS", false); // Open preferences namespace
 
   camera_enable(); // Enable camera at initialization
+  DEBUG_PRINT("[OV2640] enabled ");
 
   // OV2640 camera hardware pin declaration
   ov2640_config.pin_pwdn = OV2640_PWDN;
   ov2640_config.pin_reset = OV2640_RESET;
   ov2640_config.pin_xclk = OV2640_XCLK;
-  ov2640_config.pin_sscb_sda = OV2640_SIOD;
-  ov2640_config.pin_sscb_scl = OV2640_SIOC;
+  ov2640_config.pin_sccb_sda = OV2640_SIOD;
+  ov2640_config.pin_sccb_scl = OV2640_SIOC;
 
   ov2640_config.pin_d7 = OV2640_D7;
   ov2640_config.pin_d6 = OV2640_D6;
@@ -87,6 +88,7 @@ void camera_init()
 
   ov2640_config.jpeg_quality = OV2640_JPEG_QUALITY;
   ov2640_config.fb_count = 1;
+  ov2640_config.fb_location = CAMERA_FB_IN_DRAM;
 
   // Initialize OV2640 camera
   esp_err_t ov2640_initialization_error = esp_camera_init(&ov2640_config);
@@ -104,6 +106,8 @@ void camera_init()
 void camera_capture_image()
 {
   uint16_t img_id_counter = preferences.getUInt("img_id", 0); // Get image ID from EEPROM
+
+  img_buf_index = 0;
   
   DEBUG_PRINT("[OV2640] Capture IMG: ");
   DEBUG_PRINTLN(img_id_counter);
@@ -121,11 +125,11 @@ void camera_capture_image()
   // Capture image
   ov2640_frame_buf = esp_camera_fb_get();
 
+  MCU_SET_FREQ_NORMAL; // Clock MCU down to save power
+
   // Initialize SSDV
   ssdv_enc_init(&ssdv, SSDV_TYPE_NOFEC, (char*) "", img_id_counter, SSDV_JPEG_QUALITY, IMAGE_PACKET_LENGTH); // Set SSDV callsign to "" -> will be striped off anyway
   ssdv_enc_set_buffer(&ssdv, packet_img_buf);
-
-  MCU_SET_FREQ_NORMAL; // Clock MCU down to save power
 
   #if IMAGE_ID_COUNTER == IMAGE_ID_RUNNING
     img_id_counter++; // Increment image ID counter
@@ -135,8 +139,6 @@ void camera_capture_image()
 
 bool camera_get_new_packet()
 {
-  MCU_SET_FREQ_CAMERA;
-
   DEBUG_PRINTLN("[SSDV] New packet");
 
   uint8_t ssdv_status = 0;
@@ -156,8 +158,8 @@ bool camera_get_new_packet()
   if(ssdv_status == SSDV_EOI) 
   {
     DEBUG_PRINTLN("[SSDV] End of Image");
+    esp_camera_return_all();
 
-    MCU_SET_FREQ_NORMAL; // Clock MCU down to save power
     return false;
   }
 
@@ -168,18 +170,15 @@ bool camera_get_new_packet()
     // Convert image packet to BASE64
     encode_base64(packet_img_buf + IMAGE_PACKET_SSDV_OFFSET, IMAGE_PACKET_LENGTH - IMAGE_PACKET_SSDV_OFFSET, packet_img_base64_buf); // Strip of sync byte, packet type and callsign from SSDV
     
-    MCU_SET_FREQ_NORMAL; // Clock MCU down to save power
     return true;
   }
   else
   {
     DEBUG_PRINTLN("[SSDV] Error");
 
-     MCU_SET_FREQ_NORMAL; // Clock MCU down to save power
     camera_panic();
   }
   
-  MCU_SET_FREQ_NORMAL; // Clock MCU down to save power
   return false;
 }
 
@@ -192,6 +191,11 @@ void camera_panic()
 void camera_enable()
 {
   digitalWrite(OV2640_PWEN, HIGH); // Enable power to OV2640
+}
+
+void camera_deinit()
+{
+  esp_camera_deinit();
 }
 
 void camera_disable()

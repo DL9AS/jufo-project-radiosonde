@@ -85,7 +85,7 @@ void aprs_send_position_packet(uint64_t *freq, uint8_t pwr, uint32_t deviation,c
   // Send flag at end
   ax25_TX_flag(3);
 
-  SX1278_disable();
+  SX1278_sleep();
 
   MCU_SET_FREQ_NORMAL; // Clock down MCU to save power
 }
@@ -136,7 +136,7 @@ void aprs_send_position_packet(uint64_t *freq, uint8_t pwr, uint32_t deviation,c
     // Send flag at end
     ax25_TX_flag(3);
 
-    SX1278_disable();
+    SX1278_sleep();
 
     MCU_SET_FREQ_NORMAL; // Clock down MCU to save power
   }

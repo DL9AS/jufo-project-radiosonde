@@ -40,6 +40,7 @@ bool camera_get_new_packet();
 
 void camera_enable();
 void camera_disable();
+void camera_deinit();
 void camera_panic();
 
 #endif

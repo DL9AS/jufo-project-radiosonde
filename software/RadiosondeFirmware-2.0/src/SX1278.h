@@ -30,6 +30,7 @@ void SX1278_begin(void);
 
 void SX1278_enable(void);
 void SX1278_disable(void);
+void SX1278_sleep(void);
 void SX1278_reset(void);
 
 void SX1278_enable_TX_direct(uint64_t *freq, uint8_t pwr, uint16_t deviation);

@@ -45,7 +45,7 @@
  * TARGET_RS_4 specific config
  */
 
-  #define PRE_IMG_LOOP_REAPEATS 5
+  #define PRE_IMG_LOOP_REAPEATS 10
 
   #define IMAGE_ID_COUNTER IMAGE_ID_RUNNING // IMAGE_ID_RUNNING stores and increments the Image ID | IMAGE_ID_RESET reset the Image ID to 0 (development only)
 
@@ -53,7 +53,7 @@
  * Radio protocol config
  */
 
-  #define RADIO_PACKET_DELAY  30000  // Radio packet delay in ms
+  #define RADIO_PACKET_DELAY  35000  // Radio packet delay in ms
 
 /*
  * Radio config
@@ -65,7 +65,7 @@
   #define SX1278_MOD_OPTION MOD_DIO2
 
   #if SX1278_MOD_OPTION == MOD_DIO2
-    #define SX1278_FREQUENCY_CORRECTION -60000 // Frequency offset in Hz
+    #define SX1278_FREQUENCY_CORRECTION -61358 // Frequency offset in Hz
     #define SX1278_TX_POWER 17  // Tx power in dbm (2-20 dbm)
     #define SX1278_DEVIATION 3000 // FSK deviation in Hz
   #elif SX1278_MOD_OPTION == MOD_F_HOP
@@ -81,13 +81,13 @@
  */
  
   #define APRS_SOURCE_CALLSIGN "DL9AS"
-  #define APRS_SOURCE_SSID 1
+  #define APRS_SOURCE_SSID 11
   
   #define APRS_DESTINATION_CALLSIGN "APMON1"
   #define APRS_DESTINATION_SSID 0
   
-  #define APRS_DIGIPEATER "WIDE1"
-  #define APRS_DIGIPEATER_SSID 1
+  #define APRS_DIGIPEATER "WIDE0"
+  #define APRS_DIGIPEATER_SSID 0
 
   #define APRS_SYMBOL_OVERLAY '/'
   #define APRS_SYMBOL 'O'
@@ -109,8 +109,8 @@
   // For DIO2 mod: 408us 1200Hz and 204us 2400Hz good starting point
   // For SX1278 Fhop mod: 390us 1200Hz and 195us 2400Hz good stating point
   #if SX1278_MOD_OPTION == MOD_DIO2
-    #define APRS_1200_MARK_DELAY 416 // Send 1200Hz mark for ~833us, so theoretical a delay between state changes of ~417us
-    #define APRS_2400_MARK_DELAY 208 // Send twice 2400Hz mark for ~417us each, so theoretical a delay between state changes of ~208us
+    #define APRS_1200_MARK_DELAY 412 // Send 1200Hz mark for ~833us, so theoretical a delay between state changes of ~417us
+    #define APRS_2400_SPACE_DELAY 206 // Send twice 2400Hz space for ~417us each, so theoretical a delay between state changes of ~208us
   #elif SX1278_MOD_OPTION == MOD_F_HOP
     #define APRS_1200_MARK_DELAY 390 // Send 1200Hz mark for ~833us, so theoretical a delay between state changes of ~417us
     #define APRS_2400_MARK_DELAY 195 // Send twice 2400Hz mark for ~417us each, so theoretical a delay between state changes of ~208s
@@ -118,7 +118,7 @@
 
   #define APRS_COMMENT_BUF_SIZE 150
 
-  #define APRS_ADDITIONAL_COMMENT "Ground Test"
+  #define APRS_ADDITIONAL_COMMENT "Ground_Test"
   
 /*
  * GPS config
@@ -130,7 +130,7 @@
   #define GPS_PARSE_SENTENCE_RMC "GNRMC" // Use GNRMC for GPS receiver with more than one constellation and GPRMC for GPS receiver with GPS only
   
 /*
- * Camera OV2640 config -> not yet implemented!
+ * Camera OV2640 config
  */
 
   #define OV2640_FRAMESIZE FRAMESIZE_VGA // Choose: 96X96 (96x96), QCIF (176x144), HQVGA (240x176), 240X240 (240x240), QVGA (320x240), HVGA (480x320), VGA (640x480)
@@ -142,6 +142,8 @@
   #define IMAGE_PACKET_LENGTH 195
 
   #define IMAGE_SSDV_FEED_BUF_LENGTH 128
+
+  #define IMAGE_APRS_SOURCE_SSID 10
 
 /*
  * Environment sensor config
