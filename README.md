@@ -3,27 +3,10 @@
 The objective of this project is to develop ultralight radiosondes for long-term measurements in the stratosphere.
 
 
-This project won [First Award](Documentation/https://abstracts.societyforscience.org/Home/FullAbstract?&ProjectId=21789) and the [Craig R. Barrett](Documentation/https://abstracts.societyforscience.org/Home/FullAbstract?&ProjectId=21789) Award for Innovation at *ISEF*, the world's largest student sience competition. In addition, the project won [national first prize](Documentation/https://www.jugend-forscht.de/projektdatenbank/in-80-tagen-um-die-welt-kleine-sonden-auf-grosser-mission.html) at *Jugend forscht*, Germany's largest youth science competition.
+This project won [First Award](https://abstracts.societyforscience.org/Home/FullAbstract?&ProjectId=21789) and the [Craig R. Barrett](https://abstracts.societyforscience.org/Home/FullAbstract?&ProjectId=21789) Award for Innovation at *ISEF*, the world's largest student sience competition. In addition, the project won [national first prize](https://www.jugend-forscht.de/projektdatenbank/in-80-tagen-um-die-welt-kleine-sonden-auf-grosser-mission.html) at *Jugend forscht*, Germany's largest youth science competition.
 
 
 **Developer contact: [DL9AS@qsl.net](mailto:DL9AS@qsl.net)**
-
-- [*ISEF* / *Jugend forscht*: radiosonde project](#isef--jugend-forscht-radiosonde-project)
-  - [Flight path](#flight-path)
-  - [4th radiosonde version](#4th-radiosonde-version)
-    - [Hardware](#hardware)
-    - [Aerial images](#aerial-images)
-  - [3rd radiosonde version:](#3rd-radiosonde-version)
-    - [Hardware](#hardware-1)
-    - [Assembled radiosonde](#assembled-radiosonde)
-  - [2nd radiosonde version with camera:](#2nd-radiosonde-version-with-camera)
-  - [2nd radiosonde version](#2nd-radiosonde-version)
-    - [Assembled radiosonde](#assembled-radiosonde-1)
-  - [1st radiosonde version](#1st-radiosonde-version)
-    - [Assembled radiosonde](#assembled-radiosonde-2)
-  - [Balloon](#balloon)
-  - [APRS packet description](#aprs-packet-description)
-
 
 ## Flight path
 
@@ -105,5 +88,5 @@ Solar cell array:
 
 ## APRS packet description
 
-![aprs paket description](Documentation/aprs_paket_description.png#gh-light-mode-only)
-![aprs paket description](Documentation/aprs_paket_description_dark.png#gh-dark-mode-only)
+![aprs paket description](Documentation/aprs_packet_description.png#gh-light-mode-only)
+![aprs paket description](Documentation/aprs_packet_description_dark.png#gh-dark-mode-only)
