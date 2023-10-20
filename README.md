@@ -86,7 +86,6 @@ Solar cell array:
 
 ![radiosonde-1_in_the_air](Documentation/radiosonde-1_in_the_air.jpg)
 
-## APRS packet description
+## APRS/AX.25 packet description
 
-![aprs paket description](Documentation/aprs_packet_description.png#gh-light-mode-only)
-![aprs paket description](Documentation/aprs_packet_description_dark.png#gh-dark-mode-only)
+![aprs paket description](Documentation/aprs_packet_description.svg)
