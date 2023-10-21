@@ -30,8 +30,7 @@
   // Choose target:
   // TARGET_RS_1TO3 is compatibly with radiosonde generation 1 to 3
   // TARGET_RS_4 is compatibly with radiosonde generation 4 with camera
-  #define TARGET TARGET_RS_1TO3 
-
+  #define TARGET TARGET_RS_4 
 
 /*
  * Payload config
@@ -47,7 +46,7 @@
 
   #define PRE_IMG_LOOP_REAPEATS 10
 
-  #define IMAGE_ID_COUNTER IMAGE_ID_RUNNING // IMAGE_ID_RUNNING stores and increments the Image ID | IMAGE_ID_RESET reset the Image ID to 0 (development only)
+  #define NVS_STATUS NVS_RUNNING // NVS_RUNNING normal mode | NVS_RESET resets the non-volatile file system (development only)
 
 /*
  * Radio protocol config
@@ -80,14 +79,15 @@
  * APRS config
  */
  
-  #define APRS_SOURCE_CALLSIGN "DL9AS"
+  #define APRS_SOURCE_CALLSIGN "N0CALL"
   #define APRS_SOURCE_SSID 11
   
   #define APRS_DESTINATION_CALLSIGN "APMON1"
   #define APRS_DESTINATION_SSID 0
   
-  #define APRS_DIGIPEATER "WIDE0"
-  #define APRS_DIGIPEATER_SSID 0
+  #define APRS_DIGIPEATER_ENABLE NO_DIGI // Set to USE_DIGI or NO_DIGI
+  #define APRS_DIGIPEATER_CALLSIGN "WIDE1"
+  #define APRS_DIGIPEATER_SSID 1
 
   #define APRS_SYMBOL_OVERLAY '/'
   #define APRS_SYMBOL 'O'
@@ -135,7 +135,7 @@
 
   #define OV2640_FRAMESIZE FRAMESIZE_VGA // Choose: 96X96 (96x96), QCIF (176x144), HQVGA (240x176), 240X240 (240x240), QVGA (320x240), HVGA (480x320), VGA (640x480)
 
-  #define OV2640_JPEG_QUALITY 13 // 0-63 -> smaller number means higher image quality
+  #define OV2640_JPEG_QUALITY 10 // 0-63 -> smaller number means higher image quality
 
   #define SSDV_JPEG_QUALITY 3 // 0-7 -> higher number means higher image quality
 
@@ -159,6 +159,17 @@
   #define DEBUG_SERIAL_ENABLE
 
   #define DEBUG_SERIAL_BAUD_RATE 115200
+
+/*
+ * CACHE config
+ */
+
+  #define CACHE_ENABLE
+
+  #define CACHE_APRS_SOURCE_SSID 9
+
+  #define CACHE_RUN_HANDLER_EVERY 15 // Run cache handler after every X position packets
+  #define CACHE_LENGTH 250 // Cache length must be an even!
 
 /*
  * Solar config

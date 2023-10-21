@@ -18,31 +18,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-#ifndef __CAMERA__H__
-#define __CAMERA__H__
-
-#include <Arduino.h>
-
-#include "config.h"
+#ifndef __CACHE__H__
+#define __CACHE__H__
 
 #include <Preferences.h> // Non-volatile storage
 
-#define IMAGE_PACKET_SSDV_OFFSET 6 // Strip of sync byte, packet type and callsign from SSDV
-#define IMAGE_PACKET_BASE64_LENGTH ((IMAGE_PACKET_LENGTH - IMAGE_PACKET_SSDV_OFFSET + 2)/3*4)
-
-extern uint8_t packet_img_base64_buf[IMAGE_PACKET_BASE64_LENGTH];
 
 // Exported functions
-void camera_init();
-void camera_begin(Preferences* p_pref);
-
-void camera_capture_image();
-
-bool camera_get_new_packet();
-
-void camera_enable();
-void camera_disable();
-void camera_deinit();
-void camera_panic();
-
+void cache_begin(Preferences* p_pref);
+char* cache_get(uint16_t* index);
+void cache_store(void);
+u_int16_t cache_push(char c);
 #endif

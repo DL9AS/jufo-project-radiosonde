@@ -31,7 +31,10 @@
 #define SX1278_INTERNAL 0
 #define DS18B20 1
 
-#define IMAGE_ID_RESET 0
-#define IMAGE_ID_RUNNING 1
+#define NO_DIGI 0
+#define USE_DIGI 1
+
+#define NVS_RESET 0
+#define NVS_RUNNING 1
 
 #endif

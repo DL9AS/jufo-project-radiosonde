@@ -26,16 +26,14 @@
 #include "globals.h"
 #include "pins.h"
 
-#include <Preferences.h> // Save image ID permanently to EEPROM 
-
 #include "../lib/ssdv/ssdv.h"
 #include "../lib/base64/base64.hpp"
+#include <Preferences.h> // Non-volatile storage
 
 // Module globals
+Preferences* p_cam_preferences;
 camera_fb_t *ov2640_frame_buf; // OV2640 camera frame buffer
 camera_config_t ov2640_config; // OV2640 camera settings
-
-Preferences preferences; // Save image ID permanently to EEPROM 
 
 ssdv_t ssdv;
 uint8_t packet_img_buf[IMAGE_PACKET_LENGTH]; // RAW image packet buffer
@@ -43,19 +41,19 @@ uint8_t packet_img_base64_buf[IMAGE_PACKET_BASE64_LENGTH]; // BASE64 image packe
 uint16_t img_buf_index = 0; // Index for iterating thru the image buffer
 
 // Exported functions
-void camera_begin()
+void camera_begin(Preferences* p_pref)
 {
   // Camera power enable pin initialization
   pinMode(OV2640_PWEN, OUTPUT);
   // Disable camera at begin
   camera_disable();
+
+  p_cam_preferences = p_pref;
 }
 
 void camera_init()
 {
   MCU_SET_FREQ_CAMERA;
-
-  preferences.begin("DL9AS", false); // Open preferences namespace
 
   camera_enable(); // Enable camera at initialization
   DEBUG_PRINT("[OV2640] enabled ");
@@ -94,6 +92,8 @@ void camera_init()
   esp_err_t ov2640_initialization_error = esp_camera_init(&ov2640_config);
   if (ov2640_initialization_error != ESP_OK) 
   {
+    MCU_SET_FREQ_NORMAL;
+
     DEBUG_PRINT("[OV2640] Init err: ");
     DEBUG_PRINTLN(ov2640_initialization_error);
     
@@ -105,20 +105,12 @@ void camera_init()
 
 void camera_capture_image()
 {
-  uint16_t img_id_counter = preferences.getUInt("img_id", 0); // Get image ID from EEPROM
+  uint16_t img_id_counter = p_cam_preferences->getUInt("img_id", 0); // Get image ID from NVS
 
   img_buf_index = 0;
   
   DEBUG_PRINT("[OV2640] Capture IMG: ");
   DEBUG_PRINTLN(img_id_counter);
-
-  #if IMAGE_ID_COUNTER == IMAGE_ID_RESET
-    if(img_id_counter)
-    {
-      img_id_counter = 0; // Reset image ID counter
-      preferences.putUInt("img_id", 0); // Write 0 to EEPROM
-    }
-  #endif
 
   MCU_SET_FREQ_CAMERA;
 
@@ -133,7 +125,7 @@ void camera_capture_image()
 
   #if IMAGE_ID_COUNTER == IMAGE_ID_RUNNING
     img_id_counter++; // Increment image ID counter
-    preferences.putUInt("img_id", img_id_counter); // Write image ID to EEPROM
+    p_cam_preferences->putUInt("img_id", img_id_counter); // Write image ID to NVS
   #endif
 }
 
@@ -147,7 +139,7 @@ bool camera_get_new_packet()
   {
     ssdv_enc_feed(&ssdv, &ov2640_frame_buf->buf[img_buf_index], IMAGE_SSDV_FEED_BUF_LENGTH);
 
-    DEBUG_PRINT("[SSDV] FB index:"); // Print frame buffer index
+    DEBUG_PRINT("[SSDV] FB index: "); // Print frame buffer index
     DEBUG_PRINTLN(img_buf_index);
 
     // Get index to image buffer next time
@@ -165,7 +157,7 @@ bool camera_get_new_packet()
 
   if(ssdv_status == SSDV_OK)
   {
-    DEBUG_PRINTLN("[SSDV] Packet sucess");
+    DEBUG_PRINTLN("[SSDV] Packet success");
 
     // Convert image packet to BASE64
     encode_base64(packet_img_buf + IMAGE_PACKET_SSDV_OFFSET, IMAGE_PACKET_LENGTH - IMAGE_PACKET_SSDV_OFFSET, packet_img_base64_buf); // Strip of sync byte, packet type and callsign from SSDV

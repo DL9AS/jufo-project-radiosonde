@@ -73,7 +73,7 @@
 #elif TEMPERATURE_SENSOR == SX1278_INTERNAL
   #define TEMP_BEGIN
   #define TEMP_MEASURE
-  #define TEMP_VAR sx1278_internal_last_temp
+  #define TEMP_VAR SX1278_measure_internal_temperature()
 #endif
 
 #endif

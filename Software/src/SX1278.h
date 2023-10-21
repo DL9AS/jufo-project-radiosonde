@@ -23,8 +23,6 @@
 
 #include<Arduino.h>
 
-extern int16_t sx1278_internal_last_temp;
-
 // Exported functions
 void SX1278_begin(void);
 
@@ -42,4 +40,5 @@ void SX1278_set_TX_deviation(uint64_t *freq, uint16_t deviation);
 void SX1278_set_TX_power(uint8_t pwr, bool pa_boost_mode_20dbm);
 void SX1278_set_TX_frequency(uint64_t *freq);
 
+int8_t SX1278_measure_internal_temperature(void);
 #endif

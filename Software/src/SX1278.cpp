@@ -29,7 +29,6 @@
 #include "globals.h"
 
 // Module globals
-int16_t sx1278_internal_last_temp = 0;
 #if SX1278_MOD_OPTION == MOD_F_HOP
   uint8_t freq_lsb_lo;
   uint8_t freq_lsb_hi;
@@ -52,24 +51,6 @@ static uint8_t SX1278_read_reg(uint8_t address)
   digitalWrite(SX1278_NSS, HIGH);  // Clear SX1278 SPI device selection
 
   return reg_value;
-}
-
-// This measurement must be performed with SX1278 in Fsk mode!
-static void SX1278_measure_internal_temperature(int16_t *temp)
-{
-  // Set TEMP_MONITOR_OFF (LSB of REG_IMAGE_CAL) to 0 -> enable temperature sensor
-  SX1278_write_reg(REG_IMAGE_CAL, 0x82);
-  delayMicroseconds(140);
-  // Set TEMP_MONITOR_OFF (LSB of REG_IMAGE_CAL) to 1 -> disable temperature sensor
-  SX1278_write_reg(REG_IMAGE_CAL, 0x83);
-
-  uint8_t temp_raw;
-  temp_raw = SX1278_read_reg(REG_TEMP);
-
-  *temp = ((int8_t) (255 - temp_raw)) + SX1278_INTERNAL_TEMP_OFFSET;
-
-  DEBUG_PRINT("[SX1278] Internal temp: ");
-  DEBUG_PRINTLN(*temp);
 }
 
 // Exported functions
@@ -139,8 +120,6 @@ void SX1278_enable_TX_direct(uint64_t *freq, uint8_t pwr, uint16_t deviation)
   #if SX1278_MOD_OPTION == MOD_F_HOP
     SX1278_write_reg(REG_PLL_HOP, 0xAD); // Set Fast_Hop_On (MSB bit) true to enable fast freq hopping
   #endif
-
-  SX1278_measure_internal_temperature(&sx1278_internal_last_temp);
 
   if(pwr <= 15) SX1278_set_TX_power(pwr, false); // For PWR between 2-15: Do not use the +20dBm option on PA_BOOT
   else SX1278_set_TX_power(pwr, true); // For PWR between 5-20: Enable the +20dBm option on PA_BOOT
@@ -228,4 +207,35 @@ void SX1278_set_TX_frequency(uint64_t *freq)
   SX1278_write_reg(REG_FR_MSB, freq_tmp >> 16);  // Write MSB of RF carrier freq
   SX1278_write_reg(REG_FR_MID, freq_tmp >> 8);  // Write MID of RF carrier freq
   SX1278_write_reg(REG_FR_LSB, freq_tmp);  // Write LSB of RF carrier freq
+}
+
+// This measurement must be performed with SX1278 in FSTx or FSRx mode!
+int8_t SX1278_measure_internal_temperature(void)
+{
+  // Set SX1278 operating mode to FSRx mode
+  // 7: 0->FSK/OOK Mode
+  // 6-5: 00->FSK
+  // 4: 0 (reserved)
+  // 3: 1->Low Frequency Mode
+  // 2-0: 000->FSK RX Mode
+  SX1278_write_reg(REG_OP_MODE, 0x0A);
+  delayMicroseconds(140);
+
+  // Set TEMP_MONITOR_OFF (LSB of REG_IMAGE_CAL) to 0 -> enable temperature sensor
+  SX1278_write_reg(REG_IMAGE_CAL, 0x82);
+  delayMicroseconds(140);
+  // Set TEMP_MONITOR_OFF (LSB of REG_IMAGE_CAL) to 1 -> disable temperature sensor
+  SX1278_write_reg(REG_IMAGE_CAL, 0x83);
+
+  uint8_t temp_raw;
+  temp_raw = SX1278_read_reg(REG_TEMP);
+
+  temp_raw = ((int8_t) (255 - temp_raw)) + SX1278_INTERNAL_TEMP_OFFSET;
+
+  DEBUG_PRINT("[SX1278] Internal temp: ");
+  DEBUG_PRINTLN(temp_raw);
+
+  SX1278_sleep();
+
+  return temp_raw;
 }

@@ -117,16 +117,16 @@ void gps_convert_coordinates_to_DMH(char *latitude_DMH, char *longitude_DMH)
   DEBUG_PRINTLN(longitude_DMH);
 }
 
-// Latitude and longitude is stored in decimal degrees *100
+// Latitude and longitude is stored in decimal degrees * 100
 void gps_convert_coordinates_to_DD(int16_t *latitude_DD, int16_t *longitude_DD)
 {
   // Calculate latitude in decimal format * 100
   *latitude_DD = dd_lat*100 + mm_lat*5/3 + last_mm_lat/60000;
-  if(direction_lat == 'W') *latitude_DD = - *latitude_DD;
+  if(direction_lat == 'S') *latitude_DD = - *latitude_DD;
 
   // Calculate longitude in decimal format * 100
   *longitude_DD = dd_long*100 + mm_long*5/3 + last_mm_long/60000;
-  if(direction_long == 'S') *longitude_DD = - *longitude_DD;
+  if(direction_long == 'W') *longitude_DD = - *longitude_DD;
 
   DEBUG_PRINT("[GPS] DD lat: ");
   DEBUG_PRINTLN(*latitude_DD);
