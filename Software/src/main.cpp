@@ -164,7 +164,7 @@ void main_generate_aprs_position_packet()
   Sample: 000/000/A=000000/F0N0T0E0Y0S0a0b0c0_XYZ
 
   Fixed attributes for every packet:
-    [VALUE]/[VALUE]   Speed [knots] / Course [deg]
+    [VALUE]/[VALUE]   Course [deg] / Speed [knots]
     /A=[VALUE]/       Altitude [feet]
     F[VALUE]          Flight number
     N[VALUE]          Packet counter
