@@ -107,7 +107,7 @@ void SX1278_enable_TX_direct(uint64_t *freq, uint8_t pwr, uint16_t deviation)
   // 4: Io Home Pwr Frame 0->off
   // 3: Beacon On 0->off
   // 2-0: Payload length MSB
-  SX1278_write_reg(REG_DETECT_OPTIMIZE, 0x00);
+  SX1278_write_reg(REG_PACKET_CONFIG_2, 0x00);
   
   // Set SX1278 operating mode
   // 7: 0->FSK/OOK Mode

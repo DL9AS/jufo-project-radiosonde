@@ -21,7 +21,7 @@
 #ifndef __SX1278_REGISTER__H__
 #define __SX1278_REGISTER__H__
 
-#define REG_DETECT_OPTIMIZE 0x31
+#define REG_PACKET_CONFIG_2 0x31
 #define REG_OP_MODE 0x01
 
 #define REG_FR_MSB 0x06

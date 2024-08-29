@@ -64,7 +64,7 @@
   #define SX1278_MOD_OPTION MOD_DIO2
 
   #if SX1278_MOD_OPTION == MOD_DIO2
-    #define SX1278_FREQUENCY_CORRECTION -61358 // Frequency offset in Hz
+    #define SX1278_FREQUENCY_CORRECTION -47078 // Frequency offset in Hz
     #define SX1278_TX_POWER 17  // Tx power in dbm (2-20 dbm)
     #define SX1278_DEVIATION 3000 // FSK deviation in Hz
   #elif SX1278_MOD_OPTION == MOD_F_HOP
@@ -79,7 +79,7 @@
  * APRS config
  */
  
-  #define APRS_SOURCE_CALLSIGN "N0CALL"
+  #define APRS_SOURCE_CALLSIGN "DL9AS"
   #define APRS_SOURCE_SSID 11
   
   #define APRS_DESTINATION_CALLSIGN "APMON1"
@@ -118,7 +118,7 @@
 
   #define APRS_COMMENT_BUF_SIZE 150
 
-  #define APRS_ADDITIONAL_COMMENT "Ground_Test"
+  #define APRS_ADDITIONAL_COMMENT "Ground Test"
   
 /*
  * GPS config
@@ -135,7 +135,7 @@
 
   #define OV2640_FRAMESIZE FRAMESIZE_VGA // Choose: 96X96 (96x96), QCIF (176x144), HQVGA (240x176), 240X240 (240x240), QVGA (320x240), HVGA (480x320), VGA (640x480)
 
-  #define OV2640_JPEG_QUALITY 10 // 0-63 -> smaller number means higher image quality
+  #define OV2640_JPEG_QUALITY 5 // 0-63 -> smaller number means higher image quality
 
   #define SSDV_JPEG_QUALITY 3 // 0-7 -> higher number means higher image quality
 
@@ -143,7 +143,7 @@
 
   #define IMAGE_SSDV_FEED_BUF_LENGTH 128
 
-  #define IMAGE_APRS_SOURCE_SSID 10
+  #define IMAGE_APRS_SOURCE_SSID 7
 
 /*
  * Environment sensor config

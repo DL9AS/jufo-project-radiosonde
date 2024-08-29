@@ -73,7 +73,7 @@ void ax25_TX_byte(byte tx_byte, bool is_flag)
     
   for(uint8_t i = 0; i < 8; i++) // Iterate thru all bits
   {
-    working_bit = tx_byte & 0x01; // Strip of the rightmost bit to be sent
+    working_bit = tx_byte & 0x01 << i; // Strip of the bit to be sent
 
     ax25_calc_crc(&continuous_crc, working_bit);
 
@@ -82,7 +82,8 @@ void ax25_TX_byte(byte tx_byte, bool is_flag)
       ax25_set_rectangle_wave_out(rectangle_wave_out_state); // Send rectangle wave, without flipping state  
       consecutive_true_bit_counter++; // Increment since current bit one
 
-      if(consecutive_true_bit_counter == 5 && !is_flag) // Send an extra true, if 5 true bits in a row and not flag
+      // Bit stuffing
+      if(consecutive_true_bit_counter == 5 && !is_flag) // Send an extra false, if 5 true bits in a row and not flag
       {
         rectangle_wave_out_state = !rectangle_wave_out_state; // Current Bit is false, so flip output state
         ax25_set_rectangle_wave_out(rectangle_wave_out_state); // Send rectangle wave, with new state  
@@ -97,7 +98,5 @@ void ax25_TX_byte(byte tx_byte, bool is_flag)
 
       consecutive_true_bit_counter = 0; // Reset consecutive true bit counter
     }
-
-    tx_byte = tx_byte >> 1; // go to the next bit in the byte
   }
 }
